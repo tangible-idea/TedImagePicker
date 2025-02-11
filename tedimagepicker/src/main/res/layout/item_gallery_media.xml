@@ -36,6 +36,10 @@
             name="duration"
             type="String" />
 
+        <variable
+            name="showAsRecentImage"
+            type="boolean" />
+
     </data>
 
     <FrameLayout
@@ -121,6 +125,17 @@
                     android:textColor="@color/white"
                     tools:background="@drawable/bg_multi_image_selected"
                     tools:text="5" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/ted_image_picker_primary"
+                    android:layout_marginHorizontal="30dp"
+                    android:visibility="@{showAsRecentImage}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

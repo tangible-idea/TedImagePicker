@@ -17,6 +17,10 @@
             name="items"
             type="java.util.List&lt;Uri&gt;" />
 
+        <variable
+            name="recentIndicator"
+            type="java.util.List&lt;Uri&gt;" />
+
     </data>
 
     <LinearLayout

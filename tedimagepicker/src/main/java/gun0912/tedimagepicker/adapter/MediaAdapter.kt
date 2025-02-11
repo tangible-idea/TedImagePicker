@@ -30,6 +30,7 @@ internal class MediaAdapter(
 ) : BaseSimpleHeaderAdapter<Media>(if (builder.showCameraTile) 1 else 0) {
 
     internal val selectedUriList: MutableList<Uri> = mutableListOf()
+    internal val recentUriList: MutableList<Uri> = mutableListOf()
     var onMediaAddListener: (() -> Unit)? = null
 
     private val executorService: ExecutorService = Executors.newFixedThreadPool(4)
@@ -43,6 +44,17 @@ internal class MediaAdapter(
         } else {
             addMedia(uri)
         }
+    }
+
+    fun setRecentMedia(uriList: List<Uri>) {
+        recentUriList.clear()
+        recentUriList.addAll(uriList)
+
+        recentUriList.forEach { uri ->
+            val position = getViewPosition(uri)
+            notifyItemChanged(position)
+        }
+        //refreshSelectedView()
     }
 
 
@@ -88,6 +100,15 @@ internal class MediaAdapter(
                     startZoomActivity(item)
                 }
                 showZoom = false
+                //showAsRecentImage = true
+
+//                items.forEach { data ->
+//                    // 최근 사용에 있으면
+//                    recentUriList.forEach {
+//                        showAsRecentImage = (data.uri == it)
+//                    }
+//                }
+
             }
 
         }
@@ -105,6 +126,9 @@ internal class MediaAdapter(
                 if (data is Media.Video) {
                     binding.duration = data.durationText
                 }
+
+                // 최근 사용에 있으면
+                showAsRecentImage = recentUriList.any { data.uri == it }
 
             }
         }

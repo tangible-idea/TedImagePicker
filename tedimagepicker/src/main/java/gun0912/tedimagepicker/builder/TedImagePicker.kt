@@ -27,6 +27,10 @@ class TedImagePicker {
             return this
         }
 
+        fun showRecentImageTip() {
+
+        }
+
         fun errorListener(action: (Throwable) -> Unit): Builder {
             this.onErrorListener = object : OnErrorListener {
                 override fun onError(throwable: Throwable) {

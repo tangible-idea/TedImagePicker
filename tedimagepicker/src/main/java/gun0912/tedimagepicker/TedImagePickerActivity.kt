@@ -153,6 +153,7 @@ internal class TedImagePickerActivity
                 setSelectedAlbum(selectedPosition)
                 if (!isRefresh) {
                     setSelectedUriList(builder.selectedUriList)
+                    setRecentIndicatorByUriList(builder.recentImageUriList)
                 }
                 binding.layoutContent.rvMedia.visibility = View.VISIBLE
 
@@ -161,6 +162,11 @@ internal class TedImagePickerActivity
 
     private fun setSelectedUriList(uriList: List<Uri>?) =
         uriList?.forEach { uri: Uri -> onMultiMediaClick(uri) }
+
+    private fun setRecentIndicatorByUriList(uriList: List<Uri>?) {
+        //uriList?.forEach { uri: Uri -> onShowRecentImageIndicator(uri) }
+        onShowRecentImageIndicator(uriList?.toList() ?: listOf())
+    }
 
     private fun setSavedInstanceState(savedInstanceState: Bundle?) {
 
@@ -317,6 +323,11 @@ internal class TedImagePickerActivity
         binding.layoutContent.items = mediaAdapter.selectedUriList
         updateSelectedMediaView()
         setupButtonVisibility()
+    }
+
+    private fun onShowRecentImageIndicator(uriList: List<Uri>) {
+        mediaAdapter.setRecentMedia(uriList)
+        binding.layoutContent.recentIndicator = uriList
     }
 
     private fun setupSelectedMediaView() {

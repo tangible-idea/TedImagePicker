@@ -57,6 +57,7 @@ open class TedImagePickerBaseBuilder<out B : TedImagePickerBaseBuilder<B>>(
     @StringRes
     internal var buttonTextResId: Int = R.string.ted_image_picker_done,
     internal var selectedUriList: List<Uri>? = null,
+    internal var recentImageUriList: List<Uri>? = null,
     @DrawableRes
     internal var backButtonResId: Int = R.drawable.ic_arrow_back_black_24dp,
     internal var maxCount: Int = Int.MAX_VALUE,
@@ -232,6 +233,11 @@ open class TedImagePickerBaseBuilder<out B : TedImagePickerBaseBuilder<B>>(
 
     fun selectedUri(uriList: List<Uri>?): B {
         this.selectedUriList = uriList
+        return this as B
+    }
+
+    fun recentUri(uriList: List<Uri>?): B {
+        this.recentImageUriList = uriList
         return this as B
     }
 

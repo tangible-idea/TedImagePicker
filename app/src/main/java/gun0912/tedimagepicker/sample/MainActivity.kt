@@ -7,12 +7,14 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import gun0912.tedimagepicker.builder.TedImagePicker
 import gun0912.tedimagepicker.builder.TedRxImagePicker
+import gun0912.tedimagepicker.builder.type.MediaType
 import gun0912.tedimagepicker.sample.databinding.ActivityMainBinding
 import gun0912.tedimagepicker.sample.databinding.ItemImageBinding
 
@@ -40,18 +42,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun saveSelections(uris: List<Uri>) {
+        val prefs = getSharedPreferences("ImagePickerPrefs", MODE_PRIVATE)
+        val result= prefs.edit().putStringSet("selected_images", uris.map { it.toString() }.toSet()).apply()
+        val a= 0
+    }
+
+    private fun loadPreviousSelections(): List<Uri> {
+        val prefs = getSharedPreferences("ImagePickerPrefs", MODE_PRIVATE)
+        val setOfRecentImages= prefs.getStringSet("selected_images", emptySet())?.map { Uri.parse(it) } ?: emptyList()
+        return setOfRecentImages
+    }
+
     private fun setNormalMultiButton() {
         binding.btnNormalMulti.setOnClickListener {
             TedImagePicker.with(this)
-                //.mediaType(MediaType.IMAGE)
+                .mediaType(MediaType.IMAGE)
                 //.scrollIndicatorDateFormat("YYYYMMDD")
                 //.buttonGravity(ButtonGravity.BOTTOM)
                 //.buttonBackground(R.drawable.btn_sample_done_button)
                 //.buttonTextColor(R.color.sample_yellow)
                 .errorListener { message -> Log.d("ted", "message: $message") }
                 .cancelListener { Log.d("ted", "image select cancel") }
-                .selectedUri(selectedUriList)
-                .startMultiImage { list: List<Uri> -> showMultiImage(list) }
+                //.selectedUri(loadPreviousSelections())
+                .recentUri(loadPreviousSelections())
+                .startMultiImage { uris ->
+                    saveSelections(uris)
+                    Toast.makeText(this, "Selected ${uris.size} images", Toast.LENGTH_SHORT).show()
+                }
+
+                //.startMultiImage { list: List<Uri> -> showMultiImage(list) }
         }
     }
 

@@ -7,6 +7,13 @@ import java.util.Locale
 import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
+/**
+ * Represents a media item, which can be either an image or a video.
+ *
+ * @property albumName The name of the album the media item belongs to.
+ * @property uri The URI of the media item.
+ * @property dateAddedSecond The timestamp representing when the media item was added, in seconds since the epoch. (GMT Based)
+ */
 internal sealed class Media(
     open val albumName: String,
     open val uri: Uri,
